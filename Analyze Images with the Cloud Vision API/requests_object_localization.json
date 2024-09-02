@@ -1,0 +1,17 @@
+{
+    "requests": [
+      {
+        "image": {
+          "source": {
+            "imageUri": "https://cloud.google.com/vision/docs/images/bicycle_example.png"
+          }
+        },
+        "features": [
+          {
+            "maxResults": 10,
+            "type": "OBJECT_LOCALIZATION"
+          }
+        ]
+      }
+    ]
+  }

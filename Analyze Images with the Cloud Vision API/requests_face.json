@@ -1,0 +1,19 @@
+{
+    "requests": [
+        {
+          "image": {
+            "source": {
+                "gcsImageUri": "gs://my-bucket-name/selfie.png"
+            }
+          },
+          "features": [
+            {
+              "type": "FACE_DETECTION"
+            },
+            {
+              "type": "LANDMARK_DETECTION"
+            }
+          ]
+        }
+    ]
+  }

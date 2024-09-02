@@ -1,0 +1,17 @@
+{
+    "requests": [
+        {
+          "image": {
+            "source": {
+                "gcsImageUri": "gs://hans_de/donuts.png"
+            }
+          },
+          "features": [
+            {
+              "type": "LABEL_DETECTION",
+              "maxResults": 10
+            }
+          ]
+        }
+    ]
+  }
