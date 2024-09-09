@@ -1,0 +1,73 @@
+##Deploy GKE Cluster
+
+gcloud container clusters create hello-world-9mei \
+    --num-nodes=3 \
+    --zone=us-east1-c \
+    --release-channel=regular \
+    --enable-autoscaling --min-nodes=2 --max-nodes=6 \
+    --enable-managed-prometheus
+
+
+gcloud container clusters get-credentials hello-world-9mei --zone=us-east1-c
+
+gcloud container clusters describe hello-world-9mei --zone=us-east1-c
+
+##enable managed promotheus
+gcloud container clusters update hello-world-9mei \
+--zone=us-east1-c \
+--enable-managed-prometheus
+
+
+##setup namespace
+kubectl create ns gmp-9eil
+
+##download prometheus app
+gsutil cp gs://spls/gsp510/prometheus-app.yaml .
+
+##update
+Update the <todo> sections (lines 35-38) with the following configuration.
+containers.image: nilebox/prometheus-example-app:latest
+containers.name: prometheus-test
+ports.name: metrics
+
+##deploy promotheus app
+kubectl -n gmp-9eil apply -f prometheus-app.yaml
+
+##deploy pod monitoring app
+kubectl -n gmp-9eil apply -f pod-monitoring.yaml
+
+
+
+##deploy the application
+kubectl -n gmp-9eil apply -f hello-app/manifests/helloweb-deployment.yaml
+
+kubectl -n gmp-9eil apply -f hello-app/manifests/helloweb-deployment.yaml
+
+--create alert
+resource.type="k8s_pod"
+severity=WARNING
+
+
+--delete and redeploy app
+kubectl -n gmp-9eil delete deployment helloweb
+kubectl -n gmp-9eil apply -f hello-app/manifests/helloweb-deployment.yaml
+
+--REGISTRY_PATH
+us-east1-docker.pkg.dev/qwiklabs-gcp-03-85bdbeb8ab3e/demo-repo/hello-app:v2
+
+docker build -t us-east1-docker.pkg.dev/qwiklabs-gcp-03-85bdbeb8ab3e/demo-repo/hello-app:v2 -f Dockerfile .
+docker push us-east1-docker.pkg.dev/qwiklabs-gcp-03-85bdbeb8ab3e/demo-repo/hello-app:v2
+
+kubectl -n gmp-9eil delete deployment helloweb
+kubectl -n gmp-9eil apply -f hello-app/manifests/helloweb-deployment.yaml
+
+kubectl -n gmp-9eil expose deployment helloweb --name=helloweb-service-i99o --type=LoadBalancer --port=8080 --target-port=8080
+kubectl -n gmp-9eil get services helloweb-service-i99o
+
+
+gcloud artifacts docker images list us-east1-docker.pkg.dev/qwiklabs-gcp-03-85bdbeb8ab3e/demo-repo
+
+
+
+
+
