@@ -1,0 +1,7 @@
+export ALLOYDB_HOST=10.15.0.2
+export ALLOYDB_PORT=5432
+
+psql -h $ALLOYDB_HOST -p $ALLOYDB_PORT -U postgres
+
+\i hrm_load.sql
+

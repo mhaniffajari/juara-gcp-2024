@@ -1,0 +1,13 @@
+10.97.0.2:5432
+
+
+export ALLOYDB_HOST=10.97.0.2
+export ALLOYDB_PORT=5432
+
+psql -h $ALLOYDB_HOST -p $ALLOYDB_PORT -U postgres
+
+export ALLOYDB=10.150.0.3
+
+
+pg14-source = 10.150.0.4
+alloy-db = 10.150.0.3
