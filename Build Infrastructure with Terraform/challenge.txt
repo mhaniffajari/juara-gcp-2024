@@ -1,0 +1,33 @@
+terraform init
+terraform apply
+terraform show
+
+gcloud config list --format 'value(core.project)'
+
+terraform plan -out static_ip
+terraform apply "static_ip"
+
+
+git clone https://github.com/terraform-google-modules/terraform-google-network
+cd terraform-google-network
+git checkout tags/v6.0.1 -b v6.0.1
+
+
+# Create the top-level files
+touch main.tf variables.tf
+
+# Create the directory structure for modules
+mkdir -p modules/instances modules/storage
+
+# Create the files in the instances directory
+touch modules/instances/instances.tf modules/instances/outputs.tf modules/instances/variables.tf
+
+# Create the files in the storage directory
+touch modules/storage/storage.tf modules/storage/outputs.tf modules/storage/variables.tf
+
+# Import tf-instance-1
+terraform import module.instances.google_compute_instance.tf-instance-1 qwiklabs-gcp-04-a81d8b7a34d3/us-east4-c/5661134681564304173
+
+# Import tf-instance-2
+terraform import module.instances.google_compute_instance.tf-instance-2 qwiklabs-gcp-04-a81d8b7a34d3/us-east4-c/1822189837479367469
+

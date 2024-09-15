@@ -1,0 +1,45 @@
+--Create a dimension that returns a boolean value if the user traffic source was from Search. Name this dimension is_search_source.
+  dimension: traffic_source {
+    type: number
+    # hidden: yes
+    sql: ${TABLE}.traffic_source ;;
+  }
+
+dimension: is_search_source {
+  type: yesno
+  sql: ${traffic_source} = "Search" ;;
+}
+
+---Use this newly built is_search_source dimension to create a measure that sums the sale price from Search users 
+with a Complete status on their order. Name this measure sales_from_complete_search_users.
+measure: sales_from_complete_search_users {
+  type: sum
+  sql: ${sale_price} ;;
+  filters: [users.is_search_source: "Yes",order_items.status: "Complete"]
+}
+
+--Create a new measure that computes a sum of the total gross margin (sale price - cost). Name this measure total_gross_margin
+measure: total_gross_margin {
+  type: sum
+  value_format_name: usd_0
+  sql: ${sale_price}-${cost};;
+}
+
+--Create a new dimension that computes the number of days between the Order Delivered Date 
+and the Order Return Date. The interval should be calculated in days. Name this dimension return_days
+dimension: return_days {
+  type: number
+  sql: DATE_DIFF(${order_delivered_date}, ${order_return_date}, DAY);;
+}
+
+
+--From the Order Items Explore, create a native derived table named user_details that contains the following details for each user in the following order:
+Order ID
+User ID
+Total revenue
+Age
+City
+State
+persist_for:hours
+
+Task 4. Apply a datagroup to an Explore
